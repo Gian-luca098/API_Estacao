@@ -2,7 +2,7 @@
 # Etapa 1 — build: compila o projeto com Maven + JDK 21 e gera o jar executável.
 # Esta imagem só existe durante o build; não vai para a imagem final.
 # ==============================================================================
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+FROM maven:3.9.9-eclipse-temurin-25 AS build
 WORKDIR /app
 
 # Copia só o pom.xml primeiro para cachear as dependências em uma camada separada:
@@ -18,7 +18,7 @@ RUN mvn -B clean package -DskipTests
 # Etapa 2 — runtime: apenas o JRE + o jar já compilado, sem Maven nem código-fonte.
 # Reduz drasticamente o tamanho final da imagem e a superfície de ataque.
 # ==============================================================================
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:25-jre-alpine AS runtime
 WORKDIR /app
 
 # Usuário dedicado, não-root, por segurança.
