@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        Spring Boot 3.5.x é a última linha da geração 3.x (Jakarta EE 10 / Hibernate 6),
+        escolhida deliberadamente aqui em vez do Spring Boot 4.x (Framework 7 / Jakarta EE 11 /
+        Jackson 3), que já é a linha atualmente suportada, mas que introduz mudanças de ruptura
+        relevantes (Jackson 2 -> 3, novos padrões do Spring Security, remoção de APIs).
+        Ver README.md, seção "Decisões de arquitetura", para o racional completo.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.16</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.estacao</groupId>
+    <artifactId>meteorologica-api</artifactId>
+    <version>1.0.0</version>
+    <name>meteorologica-api</name>
+    <description>
+        API REST (CRUD completo) para o painel de monitoramento da Estação Meteorológica,
+        persistindo no PostgreSQL gerenciado pelo Supabase. Construída a partir da análise do
+        front-end React/TypeScript localizado em Front_Estacao-main.
+    </description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.version>25</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- Web / REST -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Persistência JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Bean Validation (javax/jakarta.validation) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Health check usado pelo HEALTHCHECK do Docker -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Flyway: aplica supabase/migrations/0001_init.sql automaticamente na subida -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+
+        <!-- Driver JDBC do PostgreSQL (usado pelo Postgres do Supabase) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Testes -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>meteorologica-api</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
