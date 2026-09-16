@@ -20,7 +20,8 @@ import java.util.List;
  * um {@link ApiError} consistente, em vez de deixar o Spring devolver uma página de erro
  * padrão (ou um 500 genérico) para casos que já são esperados no domínio da aplicação.
  */
-@Slf4j
+private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
