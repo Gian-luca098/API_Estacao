@@ -2,8 +2,14 @@
 # Etapa 1 — build: compila o projeto com Maven + JDK 21 e gera o jar executável.
 # Esta imagem só existe durante o build; não vai para a imagem final.
 # ==============================================================================
-FROM maven:3.9.9-eclipse-temurin-25 AS build
+# ==============================================================================
+# Etapa 1 — build: compila o projeto com Maven oficial e JDK 25 estável.
+# ==============================================================================
+FROM maven:3-eclipse-temurin-25 AS build
 WORKDIR /app
+
+# (Mantenha o restante dos comandos COPY pom.xml, mvn, etc. idênticos)
+
 
 # Copia só o pom.xml primeiro para cachear as dependências em uma camada separada:
 # elas só serão baixadas de novo se o pom.xml mudar, não a cada alteração de código-fonte.
